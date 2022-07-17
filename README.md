@@ -43,7 +43,7 @@ $youtube = new LibYoutubeDetail();
 
 // you can also retrieve data with Callable, enable async so it doesn't lag
 // Set The async
-$youtuble->setAsync();
+$youtube->setAsync();
 // Set The callable returned value is array or null ( If the channel doesn't exist )
 $youtube->setCallable(function (?array $detail): void{
 	var_dump($detail);
