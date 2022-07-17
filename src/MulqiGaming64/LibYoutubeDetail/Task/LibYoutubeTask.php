@@ -54,7 +54,7 @@ use function strtotime;
 class LibYoutubeTask extends AsyncTask{
 
 	/** @param LibYoutubeDetail $yt */
-	private $yt;
+	private static $yt;
 
 	/** @param string $url */
 	private $url;
