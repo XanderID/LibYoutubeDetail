@@ -9,7 +9,7 @@ In pocketmine by default is On
 
 # Default API
 ```php
-use use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
+use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
 use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetailException;
 
 // Begin Start Api
@@ -35,7 +35,7 @@ var_dump($detail);
 
 # Async API
 ```php
-use use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
+use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
 use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetailException;
 
 // Begin Start Api
