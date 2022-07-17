@@ -8,7 +8,7 @@ A PocketMine Virion which allows plugins to get detail information from Youtube 
 
 # API
 ```php
-use use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
+use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
 use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetailException;
 
 // Begin Start Api
