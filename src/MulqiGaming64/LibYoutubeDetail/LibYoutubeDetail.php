@@ -83,17 +83,12 @@ class LibYoutubeDetail {
 		$this->callable = $callable;
 	}
 
-	public function callback(array|null $callback) : void{
-		$call = $this->callable;
-		$call($callback);
-	}
-
 	/*
 	* @param string $name
 	*/
 	public function getDetailFromChannel(string $name = "MulqiGaming64") : ?array{
 		if($this->async && is_callable($this->callable)){
-			Server::getInstance()->getAsyncPool()->submitTask(new LibYoutubeTask($this, $name));
+			Server::getInstance()->getAsyncPool()->submitTask(new LibYoutubeTask($this->callable, $name));
 			return null;
 		}
 
@@ -156,7 +151,7 @@ class LibYoutubeDetail {
 	*/
 	public function getDetailFromUrl(string $url = "https://www.youtube.com/c/MulqiGaming64") : ?array{
 		if($this->async && is_callable($this->callable)){
-			Server::getInstance()->getAsyncPool()->submitTask(new LibYoutubeTask($this, $url));
+			Server::getInstance()->getAsyncPool()->submitTask(new LibYoutubeTask($this->callable, $url));
 			return null;
 		}
 

@@ -53,14 +53,14 @@ use function strtotime;
 
 class LibYoutubeTask extends AsyncTask{
 
-	/** @param LibYoutubeDetail $yt */
-	private static $yt;
+	/** @param callable $callable */
+	private $callable;
 
 	/** @param string $url */
 	private $url;
 
-	public function __construct(LibYoutubeDetail $yt, string $url){
-		$this->yt = $yt;
+	public function __construct(callable $callable, string $url){
+		$this->callable = $callable;
 		$this->url = $url;
 	}
 
@@ -214,6 +214,7 @@ class LibYoutubeTask extends AsyncTask{
 	}
 
 	public function onCompletion() : void{
-		$this->yt->callback($this->getResult());
+		$call = $this->callable;
+		$call($this->getResult());
 	}
 }
