@@ -10,7 +10,7 @@ declare(strict_types=1);
  * |_|  |_|\__,_|_|\__, |_|\____|\__,_|_| |_| |_|_|_| |_|\__, |\___/   |_|
  *                    |_|                                |___/
  *
- * Copyright (c) 2022 MulqiGaming64
+ * Copyright (c) 2022 XanderID
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,11 +32,10 @@ declare(strict_types=1);
  *
  */
 
-namespace MulqiGaming64\LibYoutubeDetail\Task;
+namespace XanderID\LibYoutubeDetail;
 
-use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
-use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetailException;
-use pocketmine\scheduler\AsyncTask;
+use XanderID\LibYoutubeDetail\Task\LibYoutubeTask;
+use pocketmine\Server;
 use function curl_close;
 use function curl_exec;
 use function curl_getinfo;
@@ -45,24 +44,20 @@ use function curl_setopt;
 use function date;
 use function explode;
 use function filter_var;
+use function is_callable;
 use function json_decode;
 use function json_encode;
 use function simplexml_load_string;
 use function str_replace;
 use function strtotime;
 
-class LibYoutubeTask extends AsyncTask{
+class LibYoutubeDetail {
 
-	/** @param callable $callable */
-	private $callable;
+	/** @var bool $async */
+	private $async = false;
 
-	/** @param string $url */
-	private $url;
-
-	public function __construct(callable $callable, string $url){
-		$this->callable = $callable;
-		$this->url = $url;
-	}
+	/** @var callable $callable */
+	private $callable = null;
 
 	public static function getCurl(string $url) : array{
 		$ch = curl_init();
@@ -77,10 +72,26 @@ class LibYoutubeTask extends AsyncTask{
 		return ["result" => $result, "http_code" => $code];
 	}
 
+	public function setAsync() : void{
+		$this->async = true;
+	}
+
+	/*
+	* @param callable $callable
+	*/
+	public function setCallable(callable $callable) : void{
+		$this->callable = $callable;
+	}
+
 	/*
 	* @param string $name
 	*/
-	public function getDetailFromChannel(string $name = "MulqiGaming64") : array{
+	public function getDetailFromChannel(string $name = "XanderID") : ?array{
+		if($this->async && is_callable($this->callable)){
+			Server::getInstance()->getAsyncPool()->submitTask(new LibYoutubeTask($this->callable, $name));
+			return null;
+		}
+
 		$curl = self::getCurl("https://www.youtube.com/c/" . $name);
 		if($curl["http_code"] == 404){
 			// Trying with youtube url id
@@ -138,7 +149,12 @@ class LibYoutubeTask extends AsyncTask{
 	/*
 	* @param string $url
 	*/
-	public function getDetailFromUrl(string $url = "https://www.youtube.com/c/MulqiGaming64") : array{
+	public function getDetailFromUrl(string $url = "https://www.youtube.com/c/XanderID") : ?array{
+		if($this->async && is_callable($this->callable)){
+			Server::getInstance()->getAsyncPool()->submitTask(new LibYoutubeTask($this->callable, $url));
+			return null;
+		}
+
 		if(!filter_var($url, FILTER_VALIDATE_URL)){
 			throw new LibYoutubeDetailException("Please input Url");
 		}
@@ -191,30 +207,5 @@ class LibYoutubeTask extends AsyncTask{
 		}
 
 		return $return;
-	}
-
-	public function onRun() : void{
-		$result = null;
-
-		if(!filter_var($this->url, FILTER_VALIDATE_URL)){
-			try {
-				$result = $this->getDetailFromChannel($this->url);
-			} catch(LibYoutubeDetailException $error){
-				// No Action
-			}
-		} else {
-			try {
-				$result = $this->getDetailFromUrl($this->url);
-			} catch(LibYoutubeDetailException $error){
-				// No Action
-			}
-		}
-
-		$this->setResult($result);
-	}
-
-	public function onCompletion() : void{
-		$call = $this->callable;
-		$call($this->getResult());
 	}
 }

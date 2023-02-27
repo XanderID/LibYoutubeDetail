@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MulqiGaming64\LibYoutubeDetail;
+namespace XanderID\LibYoutubeDetail;
 
 class LibYoutubeDetailException extends \Exception{
 }

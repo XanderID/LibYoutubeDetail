@@ -9,21 +9,21 @@ In pocketmine by default is On
 
 # Default API
 ```php
-use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
-use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetailException;
+use XanderID\LibYoutubeDetail\LibYoutubeDetail;
+use XanderID\LibYoutubeDetail\LibYoutubeDetailException;
 
 // Begin Start Api
 $youtube = new LibYoutubeDetail();
 
 // Getting channel detail
 // From Name or Id
-$detail = $youtube->getDetailFromChannel("MulqiGaming64");
+$detail = $youtube->getDetailFromChannel("XanderID");
 // From Url
-$detail = $youtube->getDetailFromUrl("https://www.youtube.com/c/MulqiGaming64");
+$detail = $youtube->getDetailFromUrl("https://www.youtube.com/c/XanderID");
 
 // You can also use try catch for getting error like channel not found
 try {
-	$detail = $youtube->getDetailFromChannel("MulqiGaming64");
+	$detail = $youtube->getDetailFromChannel("XanderID");
 } catch(LibYoutubeDetailException $error){
 	var_dump($error->getMessage());
 }
@@ -35,8 +35,8 @@ var_dump($detail);
 
 # Async API
 ```php
-use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetail;
-use MulqiGaming64\LibYoutubeDetail\LibYoutubeDetailException;
+use XanderID\LibYoutubeDetail\LibYoutubeDetail;
+use XanderID\LibYoutubeDetail\LibYoutubeDetailException;
 
 // Begin Start Api
 $youtube = new LibYoutubeDetail();
@@ -51,9 +51,9 @@ $youtube->setCallable(function (?array $detail): void{
 
 // in this section there is no need try catch because if error will return null
 // Set the url or channel name
-$youtube->getDetailFromChannel("MulqiGaming64"); // If async on returned value is null
+$youtube->getDetailFromChannel("XanderID"); // If async on returned value is null
 // From Url
-$youtube->getDetailFromUrl("https://www.youtube.com/c/MulqiGaming64"); // If async on returned value is null
+$youtube->getDetailFromUrl("https://www.youtube.com/c/XanderID"); // If async on returned value is null
 
 // All data from information there are the number of subscribers, videos, avatar urls, banners and others.
 ```
